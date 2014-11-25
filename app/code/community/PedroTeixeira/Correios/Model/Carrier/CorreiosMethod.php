@@ -601,15 +601,15 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
                 $track = array(
                     'deliverydate'     => $date->toString('YYYY-MM-dd'),
                     'deliverytime'     => $datetime[1] . ':00',
-                    'deliverylocation' => htmlentities($matches[2]),
-                    'status'           => htmlentities($matches[3]),
-                    'activity'         => htmlentities($matches[3])
+                    'deliverylocation' => htmlentities($matches[2], ENT_IGNORE, "ISO-8859-1"),
+                    'status'           => htmlentities($matches[3], ENT_IGNORE, "ISO-8859-1"),
+                    'activity'         => htmlentities($matches[3], ENT_IGNORE, "ISO-8859-1")
                 );
 
                 if ($description !== '') {
                     $track['activity'] = $matches[3] . ' - ' . htmlentities($description, ENT_IGNORE, "ISO-8859-1");
                 }
-
+				$track['activity']  = utf8_encode($track['activity'] );
                 $progress[] = $track;
             }
         }
