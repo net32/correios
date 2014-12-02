@@ -64,6 +64,23 @@ class PedroTeixeira_Correios_Model_Carrier_CorreiosMethod
      */
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
+    	
+    	$onlyfreeShipping = true;
+        $items = $request->getAllItems();
+        $c = count($items);
+        for ($i = 0; $i < $c; $i++) {
+            if ($items[$i]->getProduct() instanceof Mage_Catalog_Model_Product) {
+                if ($items[$i]->getFreeShipping()) {
+                    //$freeShipping = true;
+                } else {
+		    $onlyfreeShipping = false;
+                }
+            }
+        }
+        if ($onlyfreeShipping) {
+            return;
+        }
+    	
         // Do initial check
         if ($this->_inicialCheck($request) === false) {
             return false;
